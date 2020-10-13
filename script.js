@@ -6,6 +6,12 @@
 var $textArea = $("textarea");
 var $saveBtn = $("button");
 var events = [];
+$moment = moment();
+var $currentDate = $moment.format("dddd Do MMMM, YYYY");
+var $time = $moment.format("h:mm:ss a");
+$("#currentDay").append($currentDate);
+console.log($time);
+
 updateTextArea();
 
 $saveBtn.on("click", function () {
