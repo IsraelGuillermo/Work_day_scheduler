@@ -5,16 +5,17 @@
 
 var $textArea = $("textarea");
 var $saveBtn = $("button");
-var events = [];
 $moment = moment();
 var $currentDate = $moment.format("dddd Do MMMM, YYYY");
-var $time = $moment.format("h:mm:ss a");
+var $time = $moment.hours();
 $("#currentDay").append($currentDate);
 console.log($time);
-
+var events = [];
 updateTextArea();
 
-$saveBtn.on("click", function () {
+$saveBtn.on("click", saveData);
+
+function saveData() {
   var id = $(this).attr("id");
   var $input = $("#" + id).val();
   var scheduleAppointment = {
@@ -23,9 +24,7 @@ $saveBtn.on("click", function () {
   };
   events.push(scheduleAppointment);
   localStorage.setItem("appointment", JSON.stringify(events));
-});
-localStorage.setItem("appointment", JSON.stringify(events));
-
+}
 function updateTextArea() {
   var $appointment = JSON.parse(localStorage.getItem("appointment"));
   events = $appointment;
@@ -36,3 +35,17 @@ function updateTextArea() {
     }
   }
 }
+
+function updateTime() {
+  $(".description").each(function () {
+    var currentTime = parseInt($(this).attr("id"));
+    if ($time === currentTime) {
+      $(this).addClass("present");
+    } else if ($time > currentTime) {
+      $(this).addClass("past");
+    } else {
+      $(this).addClass("future");
+    }
+  });
+}
+updateTime();
